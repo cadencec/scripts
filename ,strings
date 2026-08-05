@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+rg --multiline --multiline-dotall -oP --no-filename '(?s)<template>.*?</template>' -g '*.vue' \
+  | rg -oP '>[ \t]*\K[A-Za-z][^<>{}]+?(?=[ \t]*<)' \
+  | sort -u  

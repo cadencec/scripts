@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -eux -o pipefail;
+
+cd /home/sasha/emacs;
+git pull || true;
+sudo ./autogen.sh;
+sudo CC="gcc-14" ./configure --without-compress-install --with-native-compilation --with-tree-sitter --with-pgtk;
+sudo make bootstrap;
+sudo make -j 4;
+sudo make install;
+
+emacs -batch -l package --eval '(package-initialize)' --eval '(package-recompile-all)'
+emacs -batch -l package --eval '(package-refresh-contents)' --eval '(package-upgrade-all)'
